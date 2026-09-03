@@ -11,6 +11,20 @@
         <?php
             include "includes/header.php";
         ?>
+        <main class="main-home">
+            <div>
+                <p>Classes</p>
+                <a href="pages/classes.php">Voir plus</a>
+            </div>
+            <div>
+                <p>Cours</p>
+                <a href="pages/cours.php">Voir plus</a>
+            </div>
+            <div>
+                <p>Horaire</p>
+                <a href="pages/horaire.php">Voir plus</a>
+            </div>
+        </main>
         <?php
             include "includes/footer.php";
         ?>
