@@ -3,43 +3,61 @@
 require_once "../connexion/db.php";
 
 /**
- * Lire tous les scores
+ * Lire tous les cours
  *
- * @return array Tableau des scores
+ * @return array Tableau des cours
  */
-function selectAll() : array
+function getAllCours(): array
 {
-    $query = "SELECT ";
-    $param = [];
-    return dbRun($query, $param)->fetchAll(\PDO::FETCH_ASSOC);
+    return dbRun("SELECT * FROM cours ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
 }
 
 /**
- * Ajouter un score dans la base de données
+ * Lire un cours par son id
  *
- * @param  string  $playerName Nom du joueur
- * @param  string  $gameName   Nom du jeu
- * @param  integer $score      Score obtenu
+ * @param integer $id
+ * @return array|false
  */
-function insert(string $playerName, string $gameName, int $score) : void
+function getCoursById(int $id): array|false
 {
-    $query = "INSERT INTO ";
-    $param = [
-        
-    ];
-    dbRun($query, $param);
+    return dbRun("SELECT * FROM cours WHERE id = :id", [':id' => $id])->fetch(PDO::FETCH_ASSOC);
 }
 
 /**
- * Effacer
+ * Ajouter un cours dans la base de données
  *
- * @param int $id
+ * @param string $code
+ * @param string $nom
+ * @return integer L'id du cours créé
  */
-function deleteScore(int $id) : void
+function insertCours(string $code, string $nom): int
 {
-    $query = "DELETE FROM ";
-    $param = [ ];
-    dbRun($query, $param);
+    dbRun("INSERT INTO cours (code, nom) VALUES (:code, :nom)", [':code' => $code, ':nom' => $nom]);
+    return (int) db()->lastInsertId();
+}
+
+/**
+ * Modifier un cours
+ *
+ * @param integer $id
+ * @param string $code
+ * @param string $nom
+ * @return void
+ */
+function updateCours(int $id, string $code, string $nom): void
+{
+    dbRun("UPDATE cours SET code = :code, nom = :nom WHERE id = :id", [':code' => $code, ':nom' => $nom, ':id' => $id]);
+}
+
+/**
+ * Effacer un cours (les créneaux liés sont aussi effacés)
+ *
+ * @param integer $id
+ * @return void
+ */
+function deleteCours(int $id): void
+{
+    dbRun("DELETE FROM cours WHERE id = :id", [':id' => $id]);
 }
 
 ?>

@@ -13,16 +13,9 @@
         ?>
         <main class="main-home">
             <div>
-                <p>Classes</p>
-                <a href="pages/classes.php">Voir plus</a>
-            </div>
-            <div>
-                <p>Cours</p>
-                <a href="pages/cours.php">Voir plus</a>
-            </div>
-            <div>
-                <p>Horaire</p>
-                <a href="pages/horaire.php">Voir plus</a>
+                <h1>Bienvenue sur votre gestionnaire d'horaire</h1>
+                <p>Vous pouvez gérer vos classes, cours et horaires depuis cette interface.</p>
+                <a href="pages/horaire.php">Commencer à gérer</a>
             </div>
         </main>
         <?php
