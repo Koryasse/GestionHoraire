@@ -67,7 +67,9 @@ $jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi'];
                             <td><?= htmlspecialchars($creneau['cours_code'] . ' - ' . $creneau['cours_nom']) ?></td>
                             <td><?= htmlspecialchars($creneau['salle']) ?></td>
                             <td>
-                                <a href="?delete=<?= $creneau['id'] ?>" onclick="return confirm('Supprimer ce créneau ?')">Supprimer</a>
+                                <a class="deleteBtn" href="?delete=<?= $creneau['id'] ?>" onclick="return confirm('Supprimer ce créneau ?')">Supprimer</a>
+                                <span> | </span>
+                                <a class="putBtn" href="?put=<?= $creneau['id'] ?>">Modifier</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

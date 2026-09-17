@@ -49,7 +49,9 @@ $cours = getAllCours();
                             <td><?= htmlspecialchars($c['code']) ?></td>
                             <td><?= htmlspecialchars($c['nom']) ?></td>
                             <td>
-                                <a href="?delete=<?= $c['id'] ?>" onclick="return confirm('Supprimer ce cours ?')">Supprimer</a>
+                                <a class="deleteBtn" href="?delete=<?= $c['id'] ?>" onclick="return confirm('Supprimer ce cours ?')">Supprimer</a>
+                                <span> | </span>
+                                <a class="putBtn" href="?put=<?= $c['id'] ?>">Modifier</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

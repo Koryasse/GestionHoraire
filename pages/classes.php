@@ -49,7 +49,9 @@ $classes = getAllClasses();
                             <td><?= htmlspecialchars($classe['nom']) ?></td>
                             <td><?= htmlspecialchars($classe['annee_scolaire']) ?></td>
                             <td>
-                                <a href="?delete=<?= $classe['id'] ?>" onclick="return confirm('Supprimer cette classe ?')">Supprimer</a>
+                                <a class="deleteBtn" href="?delete=<?= $classe['id'] ?>" onclick="return confirm('Supprimer cette classe ?')">Supprimer</a>
+                                <span> | </span>
+                                <a class="putBtn" href="?put=<?= $classe['id'] ?>">Modifier</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
