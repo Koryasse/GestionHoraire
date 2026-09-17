@@ -1,6 +1,6 @@
 <?php
 
-// Détermine le préfixe des liens selon que la page est à la racine ou dans pages/
+// Détermine si la page est à la racine ou dans /pages (Généré)
 $_info = (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false) ? ".." : ".";
 
 ?>

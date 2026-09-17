@@ -97,7 +97,7 @@ $jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi'];
                             Jour
                             <select name="jour" required>
                                 <?php foreach ($jours as $jour): ?>
-                                    <option value="<?= $jour ?>"><?= ucfirst($jour) ?></option>
+                                    <option value="<?= $jour ?>"><?= $jour ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </label>

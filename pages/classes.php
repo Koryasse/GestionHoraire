@@ -12,8 +12,8 @@ if ($deleteId) {
 
 // Ajout d'une classe
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nom = filter_input(INPUT_POST, 'nom');
-    $anneeScolaire = filter_input(INPUT_POST, 'annee_scolaire');
+    $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_SPECIAL_CHARS);
+    $anneeScolaire = filter_input(INPUT_POST, 'annee_scolaire', FILTER_SANITIZE_SPECIAL_CHARS);
     insertClasse($nom, $anneeScolaire);
     header("Location: classes.php");
     exit;

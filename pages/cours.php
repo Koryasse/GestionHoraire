@@ -12,8 +12,8 @@ if ($deleteId) {
 
 // Ajout d'un cours
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $code = filter_input(INPUT_POST, 'code');
-    $nom = filter_input(INPUT_POST, 'nom');
+    $code = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_SPECIAL_CHARS);
+    $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_SPECIAL_CHARS);
     insertCours($code, $nom);
     header("Location: cours.php");
     exit;

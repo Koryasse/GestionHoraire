@@ -5,19 +5,19 @@ require_once "../functions/classes.php";
 require_once "../functions/cours.php";
 require_once "../functions/creneaux.php";
 
-// Methode de requête (GET, POST, PUT, DELETE, ...)
+// Methode de requête
 $methode = $_SERVER['REQUEST_METHOD'];
 
-// Ressource demandée (classes, cours ou creneaux)
+// Ressource demandée
 $ressource = filter_input(INPUT_GET, "resource", FILTER_SANITIZE_STRING) ?? '';
 
 // Vérifie id
 $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
-// Données JSON envoyées dans le corps de la requête (POST / PUT)
+// Données JSON envoyées
 $donnees = lireDonneeBody();
 
-// Suivant la ressource demandée
+// Selon la ressource demandée
 switch ($ressource) {
     case "classes":
         $reponse = traiterClasses($methode, $id, $donnees);
@@ -31,7 +31,7 @@ switch ($ressource) {
     default:
         $reponse = [
             "code" => HTTP_NOT_FOUND,
-            "data" => "Ressource inconnue. Utilisez ?resource=classes, ?resource=cours ou ?resource=creneaux"
+            "data" => "Ressource inconnue."
         ];
 }
 
@@ -50,28 +50,10 @@ function traiterClasses(string $methode, int|false|null $id, array $donnees): ar
 {
     switch ($methode) {
         case "GET":
-            if ($id === null) {
-                return ["code" => HTTP_OK, "data" => getAllClasses()];
-            }
-            if ($id === false) {
-                return ["code" => HTTP_BAD_REQUEST, "data" => "id invalide"];
-            }
-            $classe = getClasseById($id);
-            if ($classe === false) {
-                return ["code" => HTTP_NOT_FOUND, "data" => "Classe introuvable"];
-            }
-            return ["code" => HTTP_OK, "data" => $classe];
+            return ["code" => HTTP_OK, "data" => getAllClasses()];
 
         case "POST":
             $nouvelId = insertClasse($donnees['nom'] ?? '', $donnees['annee_scolaire'] ?? '');
-            return ["code" => HTTP_CREATED, "data" => getClasseById($nouvelId)];
-
-        case "PUT":
-            if (!$id) {
-                return ["code" => HTTP_BAD_REQUEST, "data" => "id requis"];
-            }
-            updateClasse($id, $donnees['nom'] ?? '', $donnees['annee_scolaire'] ?? '');
-            return ["code" => HTTP_OK, "data" => getClasseById($id)];
 
         case "DELETE":
             if (!$id) {
@@ -99,35 +81,10 @@ function traiterCours(string $methode, int|false|null $id, array $donnees): arra
 
     switch ($methode) {
         case "GET":
-            if ($nomClasse !== null) {
-                $horaire = getHoraireParClasse($nomClasse);
-                if ($horaire === null) {
-                    return ["code" => HTTP_NOT_FOUND, "data" => "Classe introuvable"];
-                }
-                return ["code" => HTTP_OK, "data" => $horaire];
-            }
-            if ($id === null) {
-                return ["code" => HTTP_OK, "data" => getAllCours()];
-            }
-            if ($id === false) {
-                return ["code" => HTTP_BAD_REQUEST, "data" => "id invalide"];
-            }
-            $cours = getCoursById($id);
-            if ($cours === false) {
-                return ["code" => HTTP_NOT_FOUND, "data" => "Cours introuvable"];
-            }
-            return ["code" => HTTP_OK, "data" => $cours];
+            return ["code" => HTTP_OK, "data" => getAllCours()];
 
         case "POST":
             $nouvelId = insertCours($donnees['code'] ?? '', $donnees['nom'] ?? '');
-            return ["code" => HTTP_CREATED, "data" => getCoursById($nouvelId)];
-
-        case "PUT":
-            if (!$id) {
-                return ["code" => HTTP_BAD_REQUEST, "data" => "id requis"];
-            }
-            updateCours($id, $donnees['code'] ?? '', $donnees['nom'] ?? '');
-            return ["code" => HTTP_OK, "data" => getCoursById($id)];
 
         case "DELETE":
             if (!$id) {
@@ -153,17 +110,7 @@ function traiterCreneaux(string $methode, int|false|null $id, array $donnees): a
 {
     switch ($methode) {
         case "GET":
-            if ($id === null) {
                 return ["code" => HTTP_OK, "data" => getAllCreneaux()];
-            }
-            if ($id === false) {
-                return ["code" => HTTP_BAD_REQUEST, "data" => "id invalide"];
-            }
-            $creneau = getCreneauById($id);
-            if ($creneau === false) {
-                return ["code" => HTTP_NOT_FOUND, "data" => "Créneau introuvable"];
-            }
-            return ["code" => HTTP_OK, "data" => $creneau];
 
         case "POST":
             $nouvelId = insertCreneau(
@@ -174,22 +121,6 @@ function traiterCreneaux(string $methode, int|false|null $id, array $donnees): a
                 $donnees['heure_fin'] ?? '',
                 $donnees['salle'] ?? ''
             );
-            return ["code" => HTTP_CREATED, "data" => getCreneauById($nouvelId)];
-
-        case "PUT":
-            if (!$id) {
-                return ["code" => HTTP_BAD_REQUEST, "data" => "id requis"];
-            }
-            updateCreneau(
-                $id,
-                (int) ($donnees['classe_id'] ?? 0),
-                (int) ($donnees['cours_id'] ?? 0),
-                $donnees['jour'] ?? '',
-                $donnees['heure_debut'] ?? '',
-                $donnees['heure_fin'] ?? '',
-                $donnees['salle'] ?? ''
-            );
-            return ["code" => HTTP_OK, "data" => getCreneauById($id)];
 
         case "DELETE":
             if (!$id) {
